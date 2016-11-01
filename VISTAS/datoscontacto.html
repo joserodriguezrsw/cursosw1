@@ -1,0 +1,168 @@
+
+
+              
+
+
+
+
+<div class="div20"></div>
+
+<form class="form-horizontal" method="post" >
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Guardar</h3>
+		</div>
+		<div class="panel-body">
+
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Direccion: <span class="required">*</span></label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<input  required autocomplete="off" name="direccion" class="form-control" value="" />
+				</div>
+			</div>
+
+			
+
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Pais: </label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<select  id="pais" class="form-control">
+						<option value="">...</option>
+																										<option  title="" value="1">Colombia</option>
+											</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Departamento: </label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<select  id="departamento" class="form-control" required="required">
+						<option value="">...</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Municipio: <span class="required">*</span></label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<select  id="municipio" name="municipio" class="form-control" required="required">
+						<option value="">...</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Barrio: <span class="required">*</span></label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<input  autocomplete="off" name="barrio" required="required" class="form-control" value="" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Estrato: <span class="required">*</span></label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<select  name="estrato" class="form-control" required="required">
+						<option value="">...</option>
+																										<option  title="" value="1">Estrato1</option>
+											</select>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Telefono:</label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<input  autocomplete="off" name="telefono" class="form-control" value="" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Celular:</label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<input  autocomplete="off" name="celular" class="form-control" value="" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-lg-3 control-label" >Correo:</label>
+				<div class="col-xs-12 col-sm-9 col-lg-9">
+					<input type="email"  autocomplete="off" name="correo" class="form-control" value="" />
+				</div>
+			</div>
+
+			<p class="text-right comentario">
+				Los campos marcados con <span class="required">*</span> son obligatorios.
+			</p>
+			
+							<input type="submit" class="ufps-btn" value="Guardar" /> 
+							
+	
+		</div>
+	</div>
+</from>
+
+<script type="text/javascript">
+	var p = 0;
+	var d = 0;
+	var m = 0;
+	jQuery(document).ready(function($) {
+		if(p!=0){
+			getDepartamento(p);
+		}
+		$('#pais').change(function(event) {
+			getDepartamento($(this).val());
+		});
+		$('#departamento').change(function(event) {
+			getMunicipio($(this).val());
+		});
+	});
+
+	function getDepartamento (pais) {
+		$.post('departamento/get/', {id: pais}, function(data, textStatus, xhr) {
+			if(data.error){
+				alert(data.error);
+			}else{
+				var html = '<option value="">Seleccione...</option>'+selecte(data.datos);
+				$('#departamento').html(html);
+				if(d!=0){
+					$('#departamento option[value="'+d+'"]').attr('selected', 'selected');
+					$('#departamento').change();
+				}
+			}
+		},'json');
+	}
+
+	function getMunicipio (departamento) {
+		$.post('municipio/get/', {id: departamento}, function(data, textStatus, xhr) {
+			if(data.error){
+				alert(data.error);
+			}else{
+				var html = '<option value="">Seleccione...</option>'+selecte(data.datos);
+				$('#municipio').html(html);
+				if(m!=0){
+					$('#municipio option[value="'+m+'"]').attr('selected', 'selected');
+				}
+			}
+		},'json');
+	}
+
+</script></div>
+</div>
+
+<div class="clearfix"></div>
+<div class="ufps-footer ufps-footer-dark">
+	<h3>Universidad Francisco de Paula Santander</h3>
+	<p>Programa Ingeniería de Sistemas</p>
+	<p>Jose Ramon Rodriguez Roca, Oscar Rodrigo Torres Buitrago <!-- UFPS--></p>
+</div>
+
+<script src="ufps/js/ufps.min.js"></script>
+<script src="ufps/bootstrap/js/bootstrap.min.js"></script>
+<script src="ufps/dataTable/js/jquery.dataTables.min.js"></script>
+
+<script src="ufps/js/index.js"></script>
+</body>
+</html>
